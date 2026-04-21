@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
+
 using namespace std;
 
 // Дан двумерный массив. Поменять местами значения элементов столбца и строки на месте стыка
@@ -9,12 +11,12 @@ using namespace std;
 int main() {
     int rows, cols;
     
-    cout << "Введите количество строк и столбцов: ";
+    cout << "Введите количество строк и столбцов (должны быть равны друг другу): ";
     cin >> rows >> cols;
-    
+
     srand(time(NULL));
-    int arr[rows][cols];
-    
+    int arr[rows][cols]; 
+
     cout << "\nИсходный массив:\n";
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -23,7 +25,7 @@ int main() {
         }
         cout << "\n";
     }
-    
+
     int min_i = 0, min_j = 0;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -35,26 +37,13 @@ int main() {
     }
     
     cout << "\nМинимальный элемент: arr[" << min_i << "][" << min_j << "] = " << arr[min_i][min_j] << "\n";
-    
-    int temp_row[cols];
-    int temp_col[rows];
-    
-    for (int j = 0; j < cols; j++) {
-        temp_row[j] = arr[min_i][j];
+
+    for (int k = 0; k < rows; k++) {
+        int temp = arr[min_i][k];
+        arr[min_i][k] = arr[k][min_j];
+        arr[k][min_j] = temp;
     }
-    
-    for (int i = 0; i < rows; i++) {
-        temp_col[i] = arr[i][min_j];
-    }
-    
-    for (int j = 0; j < cols; j++) {
-        arr[min_i][j] = temp_col[j];
-    }
-    
-    for (int i = 0; i < rows; i++) {
-        arr[i][min_j] = temp_row[i];
-    }
-    
+
     cout << "\nМассив после замены:\n";
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -62,6 +51,6 @@ int main() {
         }
         cout << "\n";
     }
-    
+
     return 0;
 }
